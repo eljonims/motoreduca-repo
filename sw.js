@@ -1,4 +1,4 @@
-const CACHE_NAME = 'motoreduca-v1';
+const CACHE_NAME = 'motoreduca-v2';
 // Lista de archivos que queremos que funcionen offline
 const ASSETS = [
   './',
