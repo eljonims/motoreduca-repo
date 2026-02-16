@@ -8,7 +8,8 @@ const ASSETS = [
         './curso_bio.json',
         './manifest.json',
         './icono-192.png',
-        './icono-512.png'
+        './icono-512.png',
+        './favicon.ico'
 ];
 
 // 1. INSTALACIÓN: Guarda los archivos en el "archivador" del navegador
