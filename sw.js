@@ -1,15 +1,15 @@
 const CACHE_NAME = 'motoreduca-v3';
 // Lista de archivos que queremos que funcionen offline
 const ASSETS = [
-        './',
-        './index.html',
-        './style.css',
-        './motor.js',
-        './curso_bio.json',
-        './manifest.json',
-        './icono-192.png',
-        './icono-512.png',
-        './favicon.ico'
+  './',
+  './index.html',
+  './style.css',
+  './motor.js',
+  './curso_bio.json',
+  './manifest.json',
+  './icono-192.png',
+  './icono-512.png',
+  './favicon.ico',
 ];
 
 // 1. INSTALACIÓN: Guarda los archivos en el "archivador" del navegador
