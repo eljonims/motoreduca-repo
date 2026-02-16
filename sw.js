@@ -5,7 +5,10 @@ const ASSETS = [
   './index.html',
   './style.css',
   './motor.js',
-  './curso_bio.json'
+  './curso_bio.json',
+  './manifest.json',
+  './icono-192.png',
+  './icono-512.png'
 ];
 
 // 1. INSTALACIÓN: Guarda los archivos en el "archivador" del navegador
