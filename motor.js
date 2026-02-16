@@ -21,41 +21,45 @@ class MotorEduca {
         this.bitacora("Despertando MotorEduca...", 10);
 
         try {
+            // 1. CONEXIÓN AL ALMACÉN
             this.bitacora("Conectando al almacén local...", 20);
             this.db = await this.conectarAlmacen();
             await this.esperar(500);
             this.bitacora("[OK] Almacén IndexedDB listo.", 25);
 
-            // --- PRUEBA DE FUEGO: Guardar algo ---
-            const transaccion = this.db.transaction(["libros"], "readwrite");
-            const almacen = transaccion.objectStore("libros");
-            almacen.put({ id: "test", titulo: "Libro de Prueba" });
-
-            this.bitacora("Guardando dato de prueba...", 30);
-            // -------------------------------------
-
-            // ---------------------------------------
+            // 2. CONEXIÓN A LA RED
             this.bitacora(`Conectando con fuente: ${url}`, 35);
             const respuesta = await fetch(url);
             await this.esperar(600);
 
             if (!respuesta.ok) throw new Error("Fitxategia ez da aurkitu");
 
-            this.bitacora("Descargando temario...", 60);
+            // 3. DESCARGA Y PROCESAMIENTO
+            this.bitacora("Descargando temario...", 50);
             this.data = await respuesta.json();
             await this.esperar(1000);
 
-            this.bitacora("Validando integridad...", 80);
+            // 4. GUARDADO EN ALMACÉN (Aquí es donde se queda "para siempre")
+            this.bitacora("Guardando copia en el almacén...", 70);
+            await this.guardarLibro(this.data);
             await this.esperar(500);
-            // Aquí iría tu validarEsquema() en el futuro
 
+            // 5. VALIDACIÓN (Preparado para el futuro)
+            this.bitacora("Validando integridad...", 85);
+            await this.esperar(500);
+            // Aquí llamarás a: if(!this.validarEsquema(this.data)) return;
+
+            // 6. FINALIZACIÓN
             this.bitacora("¡Todo listo! Arrancando...", 100);
             await this.esperar(800);
 
+            // Efecto de salida de la pantalla de carga
             setTimeout(() => {
-                document.getElementById('pantalla-lanzamiento').style.opacity = "0";
+                const pantalla = document.getElementById('pantalla-lanzamiento');
+                pantalla.style.opacity = "0";
+
                 setTimeout(() => {
-                    document.getElementById('pantalla-lanzamiento').classList.add('oculto');
+                    pantalla.classList.add('oculto');
                     document.getElementById('app').classList.remove('oculto');
                     document.getElementById('titulo-curso').innerText = this.data.config.titulo;
                 }, 500);
@@ -63,6 +67,7 @@ class MotorEduca {
 
         } catch (error) {
             this.bitacora(`ERROR CRÍTICO: ${error.message}`, 100);
+            console.error(error);
         }
     }
     conectarAlmacen() {
@@ -89,5 +94,23 @@ class MotorEduca {
     }
     esperar(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    guardarLibro(libro) {
+        return new Promise((resolver, rechazar) => {
+            const tx = this.db.transaction(["libros"], "readwrite");
+            const almacen = tx.objectStore("libros");
+
+            // Creamos la ficha para IndexedDB
+            const ficha = {
+                id: libro.config.id || "curso-actual", // Usamos el ID del JSON
+                titulo: libro.config.titulo,
+                version: libro.config.version,
+                datos: libro // Guardamos todo el objeto JSON dentro
+            };
+
+            const peticion = almacen.put(ficha);
+            peticion.onsuccess = () => resolver();
+            peticion.onerror = () => rechazar("No se pudo guardar el libro");
+        });
     }
 }
