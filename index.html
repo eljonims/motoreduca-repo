@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="eu">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MotorEduca v1.0</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <!-- CAPA DE LANZAMIENTO (La bitácora) -->
@@ -36,5 +38,16 @@
         const App = new MotorEduca();
         App.lanzar("curso_bio.json"); 
     </script>
+    <script>
+        // Registramos el Service Worker si el navegador lo permite
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('✅ Portero (SW) activo en:', reg.scope))
+                    .catch(err => console.error('❌ Error al registrar Portero:', err));
+            });
+        }
+    </script>
 </body>
+
 </html>
