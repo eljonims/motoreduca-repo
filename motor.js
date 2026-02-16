@@ -25,8 +25,17 @@ class MotorEduca {
             this.db = await this.conectarAlmacen();
             await this.esperar(500);
             this.bitacora("[OK] Almacén IndexedDB listo.", 25);
+
+            // --- PRUEBA DE FUEGO: Guardar algo ---
+            const transaccion = this.db.transaction(["libros"], "readwrite");
+            const almacen = transaccion.objectStore("libros");
+            almacen.put({ id: "test", titulo: "Libro de Prueba" });
+
+            this.bitacora("Guardando dato de prueba...", 30);
+            // -------------------------------------
+
             // ---------------------------------------
-            this.bitacora(`Conectando con fuente: ${url}`, 30);
+            this.bitacora(`Conectando con fuente: ${url}`, 35);
             const respuesta = await fetch(url);
             await this.esperar(600);
 
