@@ -102,7 +102,7 @@ class MotorEduca {
 
             // Creamos la ficha para IndexedDB
             const ficha = {
-                id: libro.config.id || "curso-actual", // Usamos el ID del JSON
+                id: libro.config.id, // Usamos el ID del JSON
                 titulo: libro.config.titulo,
                 version: libro.config.version,
                 datos: libro // Guardamos todo el objeto JSON dentro
