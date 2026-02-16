@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="eu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MotorEduca v1.0</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- CAPA DE LANZAMIENTO (La bitácora) -->
+    <div id="pantalla-lanzamiento" class="capa-inicio">
+        <div class="modulo-carga">
+            <div class="icono-sistema">🚀</div>
+            <h1 class="titulo-sistema">MotorEduca</h1>
+            <div class="contenedor-barra">
+                <div id="barra-progreso" class="progreso-relleno" style="width: 0%"></div>
+            </div>
+            <div id="bitacora-lanzamiento" class="lista-bitacora"></div>
+        </div>
+    </div>
+
+    <!-- CONTENEDOR PRINCIPAL (Se verá al terminar la carga) -->
+    <main id="app" class="oculto">
+        <header>
+            <h2 id="titulo-curso">---</h2>
+        </header>
+        <section id="visor-contenido">
+            <p>Aukeratu gai bat ezkerreko menuan.</p>
+        </section>
+    </main>
+
+    <script src="motor.js"></script>
+    <script>
+        // Arrancamos el motor apuntando a un JSON en tu propio repo
+        const App = new MotorEduca();
+        App.lanzar("curso_bio.json"); 
+    </script>
+</body>
+</html>
