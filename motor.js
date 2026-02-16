@@ -19,21 +19,25 @@ class MotorEduca {
 
     async lanzar(url) {
         this.bitacora("Despertando MotorEduca...", 10);
-        
+
         try {
             this.bitacora(`Conectando con fuente: ${url}`, 30);
             const respuesta = await fetch(url);
-            
+            await this.esperar(600); 
+
             if (!respuesta.ok) throw new Error("Fitxategia ez da aurkitu");
-            
+
             this.bitacora("Descargando temario...", 60);
             this.data = await respuesta.json();
-            
+            await this.esperar(1000); 
+
             this.bitacora("Validando integridad...", 80);
+            await this.esperar(500); 
             // Aquí iría tu validarEsquema() en el futuro
-            
+
             this.bitacora("¡Todo listo! Arrancando...", 100);
-            
+            await this.esperar(800); 
+
             setTimeout(() => {
                 document.getElementById('pantalla-lanzamiento').style.opacity = "0";
                 setTimeout(() => {
@@ -46,5 +50,8 @@ class MotorEduca {
         } catch (error) {
             this.bitacora(`ERROR CRÍTICO: ${error.message}`, 100);
         }
+    }
+    esperar(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 }
